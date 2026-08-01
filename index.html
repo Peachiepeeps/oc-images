@@ -2,13 +2,75 @@
 <html>
 <head>
 <title>Random OC Picker</title>
+
+<style>
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #fff5fb;
+}
+
+h1 {
+    color: #d66aa5;
+}
+
+img {
+    max-width: 80%;
+    max-height: 600px;
+    border-radius: 15px;
+}
+
+button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 18px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+}
+</style>
+
 </head>
 
 <body>
 
 <h1>🌸 Random OC Picker 🌸</h1>
 
-<p>My OC picker is working!</p>
+<img id="ocImage" src="" alt="Random OC">
+
+<br>
+
+<button onclick="pickOC()">🎲 Pick Another!</button>
+
+
+<script>
+
+let images = [];
+
+fetch("https://api.github.com/repos/Peachiepeeps/oc-images/contents")
+.then(response => response.json())
+.then(files => {
+
+    images = files
+        .filter(file => file.name.match(/\.(png|jpg|jpeg|webp)$/i))
+        .map(file => file.name);
+
+    pickOC();
+
+});
+
+
+function pickOC() {
+
+    let randomImage =
+        images[Math.floor(Math.random() * images.length)];
+
+    document.getElementById("ocImage").src =
+        "https://peachiepeeps.github.io/oc-images/" + randomImage;
+
+}
+
+</script>
 
 </body>
 </html>
