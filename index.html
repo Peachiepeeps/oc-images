@@ -56,12 +56,23 @@ fetch("https://api.github.com/repos/Peachiepeeps/oc-images/contents")
 .then(files => {
 
     images = files
+        .filter(file => file.type === "file")
         .filter(file => file.name.match(/\.(png|jpg|jpeg|webp)$/i))
-        .map(file => file.name);
+        .map(file => file.download_url);
 
     pickOC();
 
 });
+
+
+function pickOC() {
+
+    let randomImage =
+        images[Math.floor(Math.random() * images.length)];
+
+    document.getElementById("ocImage").src = randomImage;
+
+}
 
 
 function pickOC() {
