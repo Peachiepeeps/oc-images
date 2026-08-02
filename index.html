@@ -51,14 +51,13 @@ style="cursor:pointer; width:200px;"
 
 let images = [];
 
-fetch("https://api.github.com/repos/Peachiepeeps/oc-images/contents")
+fetch("https://api.github.com/repos/Peachiepeeps/oc-images/contents?ref=main")
 .then(response => response.json())
 .then(files => {
 
-    images = files
-        .filter(file => file.type === "file")
-        .filter(file => file.name.match(/\.(png|jpg|jpeg|webp)$/i))
-        .map(file => file.download_url);
+images = files
+    .filter(file => file.name.match(/\.(png|jpg|jpeg|webp)$/i))
+    .map(file => file.name);
 
     pickOC();
 
