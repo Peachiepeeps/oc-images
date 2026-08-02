@@ -14,9 +14,9 @@ body {
     min-height: 100vh;
 
     background-image: url("background2.jpg");
-    background-size: cover;
-    background-position: center;
     background-repeat: repeat;
+    background-size: 400px auto;
+    background-position: top center;
     background-attachment: fixed;
 
     font-family: "Trebuchet MS", Arial, sans-serif;
@@ -34,18 +34,71 @@ h1 {
 }
 
 
+/* New OC text */
+
+#newOC {
+
+    font-size: 28px;
+    color: #d66aa5;
+
+    text-shadow:
+    2px 2px white;
+
+    opacity:0;
+
+    margin-top:20px;
+
+}
+
+
+.showNew {
+
+    animation:
+    popText .8s ease forwards;
+
+}
+
+
+@keyframes popText {
+
+    0% {
+
+        opacity:0;
+        transform:scale(.5);
+
+    }
+
+    50% {
+
+        opacity:1;
+        transform:scale(1.2);
+
+    }
+
+    100% {
+
+        opacity:1;
+        transform:scale(1);
+
+    }
+
+}
+
+
+
 /* OC card */
 
 #card {
 
-    display: inline-block;
+    display:inline-block;
 
-    margin-top: 30px;
-    padding: 18px;
+    margin-top:20px;
 
-    background: rgba(255,255,255,0.85);
+    padding:18px;
 
-    border-radius: 22px;
+    background:rgba(255,255,255,0.72);
+
+    border-radius:22px;
 
     box-shadow:
     0 8px 25px rgba(0,0,0,.18);
@@ -53,33 +106,37 @@ h1 {
 }
 
 
+
 /* OC image */
 
 #ocImage {
 
-    max-width: 80vw;
-    max-height: 600px;
+    max-width:80vw;
 
-    border-radius: 14px;
+    max-height:600px;
 
-    opacity: 0;
+    border-radius:14px;
 
-    transition: opacity .4s ease;
+    opacity:0;
+
+    transition:
+    opacity .4s ease;
 
 }
+
 
 
 /* Button */
 
 #buttonImage {
 
-    margin-top: 25px;
+    margin-top:25px;
 
-    width: 220px;
+    width:220px;
 
-    cursor: pointer;
+    cursor:pointer;
 
-    transition: .2s;
+    transition:.2s;
 
 }
 
@@ -94,27 +151,33 @@ h1 {
 
 #buttonImage:active {
 
-    transform: scale(.95);
+    transform:scale(.95);
+
+    filter:
+    drop-shadow(0 0 20px #fff2a8);
 
 }
+
 
 
 /* Sparkles */
 
 .sparkle {
 
-    position: fixed;
+    position:fixed;
 
-    font-size: 25px;
+    font-size:25px;
 
     pointer-events:none;
 
-    animation: sparkle 900ms forwards;
+    animation:
+    sparkle 900ms forwards;
 
 }
 
 
 @keyframes sparkle {
+
 
     from {
 
@@ -125,6 +188,7 @@ h1 {
         scale(.5);
 
     }
+
 
     to {
 
@@ -147,7 +211,12 @@ h1 {
 <body>
 
 
-<h1>🌸 Random OC Picker 🌸</h1>
+<h1>🌸 Random OC Gacha 🌸</h1>
+
+
+<div id="newOC">
+✨ New OC! ✨
+</div>
 
 
 <div id="card">
@@ -173,7 +242,6 @@ alt="Pick Another">
 let images = [];
 
 
-// Get images from GitHub
 
 fetch("https://api.github.com/repos/Peachiepeeps/oc-images/contents?ref=main")
 
@@ -184,17 +252,17 @@ fetch("https://api.github.com/repos/Peachiepeeps/oc-images/contents?ref=main")
 
     images = files
 
-    .filter(file => 
+    .filter(file =>
         file.name.match(/\.(png|jpg|jpeg|webp)$/i)
     )
 
-    // Remove the button image
     .filter(file =>
         file.name !== "button.png"
     )
 
-    .map(file => file.name);
-
+    .map(file =>
+        file.name
+    );
 
 
     pickOC();
@@ -209,7 +277,7 @@ fetch("https://api.github.com/repos/Peachiepeeps/oc-images/contents?ref=main")
 function createSparkles(){
 
 
-    for(let i = 0; i < 12; i++){
+    for(let i=0;i<15;i++){
 
 
         let sparkle =
@@ -218,18 +286,26 @@ function createSparkles(){
 
         sparkle.className="sparkle";
 
+
         sparkle.innerHTML="✨";
 
 
         sparkle.style.left =
-        (window.innerWidth/2 + (Math.random()*200-100))
+        (
+            window.innerWidth/2
+            +
+            (Math.random()*250-125)
+        )
         +"px";
 
 
         sparkle.style.top =
-        (window.innerHeight/2 + (Math.random()*200-100))
+        (
+            window.innerHeight/2
+            +
+            (Math.random()*200-100)
+        )
         +"px";
-
 
 
         document.body.appendChild(sparkle);
@@ -252,10 +328,32 @@ function createSparkles(){
 
 
 
+function showNewOCText(){
+
+
+    let text =
+    document.getElementById("newOC");
+
+
+    text.classList.remove("showNew");
+
+
+    void text.offsetWidth;
+
+
+    text.classList.add("showNew");
+
+
+}
+
+
+
+
+
 function pickOC(){
 
 
-    if(images.length === 0){
+    if(images.length===0){
 
         return;
 
@@ -265,7 +363,11 @@ function pickOC(){
 
     let randomImage =
 
-    images[Math.floor(Math.random()*images.length)];
+    images[
+        Math.floor(
+            Math.random()*images.length
+        )
+    ];
 
 
 
@@ -274,7 +376,7 @@ function pickOC(){
 
 
 
-    img.style.opacity = 0;
+    img.style.opacity=0;
 
 
 
@@ -284,13 +386,14 @@ function pickOC(){
         img.src =
 
         "https://raw.githubusercontent.com/Peachiepeeps/oc-images/main/"
-        + randomImage;
+        +
+        randomImage;
 
 
 
         img.onload = ()=>{
 
-            img.style.opacity = 1;
+            img.style.opacity=1;
 
         };
 
@@ -300,6 +403,9 @@ function pickOC(){
 
 
     createSparkles();
+
+
+    showNewOCText();
 
 
 }
