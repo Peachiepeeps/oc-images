@@ -347,7 +347,7 @@ h1 {
 
 id="buttonImage"
 
-src="https://raw.githubusercontent.com/Peachiepeeps/oc-images/main/button.png"
+src="button.png"
 
 onclick="pickOC()"
 
@@ -359,100 +359,57 @@ alt="Pick Another">
 
 
 
-
-
-
 <script>
-
 
 let images = [];
 
 
+// Load image list
 
-
-fetch("https://api.github.com/repos/Peachiepeeps/oc-images/contents?ref=main")
+fetch("images.json")
 
 .then(response => response.json())
 
-.then(files => {
+.then(data => {
 
-
-    images = files
-
-    .filter(file =>
-
-        file.name.match(/\.(png|jpg|jpeg|webp)$/i)
-
-    )
-
-    .filter(file =>
-
-        file.name !== "button.png"
-
-    )
-
-    .map(file =>
-
-        file.name
-
-    );
-
+    images = data;
 
     pickOC();
-
 
 });
 
 
 
 
-
-
+// Sparkles
 
 function createSparkles(){
 
-
     for(let i=0;i<15;i++){
-
 
         let sparkle =
         document.createElement("div");
 
-
         sparkle.className="sparkle";
-
 
         sparkle.innerHTML="✨";
 
 
-
         sparkle.style.left =
-
         (
-
-        window.innerWidth/2 +
-
-        (Math.random()*250-125)
-
+            window.innerWidth/2 +
+            (Math.random()*250-125)
         )+"px";
-
 
 
         sparkle.style.top =
-
         (
-
-        window.innerHeight/2 +
-
-        (Math.random()*200-100)
-
+            window.innerHeight/2 +
+            (Math.random()*200-100)
         )+"px";
 
 
-
         document.body.appendChild(sparkle);
-
-
 
 
         setTimeout(()=>{
@@ -461,9 +418,7 @@ function createSparkles(){
 
         },900);
 
-
     }
-
 
 }
 
@@ -471,13 +426,12 @@ function createSparkles(){
 
 
 
+// New OC text animation
 
 function showNewOCText(){
 
-
     let text =
     document.getElementById("newOC");
-
 
 
     text.classList.remove("showNew");
@@ -488,19 +442,18 @@ function showNewOCText(){
 
     text.classList.add("showNew");
 
-
 }
 
 
 
 
 
-
+// Pick random OC
 
 function pickOC(){
 
 
-    if(images.length===0){
+    if(images.length === 0){
 
         return;
 
@@ -514,7 +467,7 @@ function pickOC(){
 
         Math.floor(
 
-            Math.random()*images.length
+            Math.random() * images.length
 
         )
 
@@ -528,42 +481,29 @@ function pickOC(){
 
 
 
-    img.style.opacity=0;
-
+    img.style.opacity = 0;
 
 
 
     setTimeout(()=>{
 
 
-        img.src =
-
-        "https://raw.githubusercontent.com/Peachiepeeps/oc-images/main/"
-
-        +
-
-        randomImage;
+        img.src = randomImage;
 
 
 
+        img.onload = ()=>{
 
-        img.onload=()=>{
-
-
-            img.style.opacity=1;
-
+            img.style.opacity = 1;
 
         };
-
 
 
     },200);
 
 
 
-
     createSparkles();
-
 
     showNewOCText();
 
@@ -571,8 +511,9 @@ function pickOC(){
 }
 
 
-
 </script>
+
+
 
 
 </body>
