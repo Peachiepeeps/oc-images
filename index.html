@@ -3,6 +3,45 @@
 <head>
 <title>Random OC Picker</title>
 
+<head>
+    <title>My OC Randomizer</title>
+
+    <style>
+    body {
+        background-image: url("background.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+    }
+
+    button:active {
+        animation: sparkle 0.4s;
+    }
+
+    @keyframes sparkle {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 pink;
+        }
+
+        50% {
+            transform: scale(1.15);
+            box-shadow: 0 0 20px #ffb6e6;
+        }
+
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 pink;
+        }
+    }
+    </style>
+</head>
+    
 <style>
 body {
     text-align: center;
