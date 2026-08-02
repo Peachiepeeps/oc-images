@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,130 +9,156 @@
 
 <style>
 
-body{
-    margin:0;
-    min-height:100vh;
+body {
+    margin: 0;
+    min-height: 100vh;
 
-    background-image:url("background2.jpg");
-    background-size:contain;
-    background-repeat:no-repeat;
-    background-position:center top;
-    background-attachment:fixed;
-    background-color:#f8d8eb;
+    background-image: url("background2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat;
+    background-attachment: fixed;
 
-    font-family:"Trebuchet MS", Arial, sans-serif;
-    text-align:center;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    text-align: center;
 }
 
-h1{
-    margin-top:40px;
-    color:#c75d95;
-    text-shadow:2px 2px white;
-    font-size:42px;
+
+/* Title */
+
+h1 {
+    margin-top: 40px;
+    color: #c75d95;
+    text-shadow: 2px 2px white;
+    font-size: 42px;
 }
 
-#card{
-    display:inline-block;
 
-    margin-top:30px;
-    padding:18px;
+/* OC card */
 
-    background:white;
-    border-radius:22px;
+#card {
 
-    box-shadow:0 8px 25px rgba(0,0,0,.18);
+    display: inline-block;
 
-    transition:.35s;
+    margin-top: 30px;
+    padding: 18px;
+
+    background: rgba(255,255,255,0.85);
+
+    border-radius: 22px;
+
+    box-shadow:
+    0 8px 25px rgba(0,0,0,.18);
+
 }
 
-#card{
-    display:inline-block;
-    margin-top:30px;
-    padding:18px;
-    background:white;
-    border-radius:22px;
-    box-shadow:0 8px 25px rgba(0,0,0,.18);
-    transition:box-shadow .3s ease;
+
+/* OC image */
+
+#ocImage {
+
+    max-width: 80vw;
+    max-height: 600px;
+
+    border-radius: 14px;
+
+    opacity: 0;
+
+    transition: opacity .4s ease;
+
 }
 
-#card:hover{
-    box-shadow:0 12px 35px rgba(255,182,193,.45);
+
+/* Button */
+
+#buttonImage {
+
+    margin-top: 25px;
+
+    width: 220px;
+
+    cursor: pointer;
+
+    transition: .2s;
+
 }
 
-#ocImage{
-    max-width:80vw;
-    max-height:600px;
-    border-radius:14px;
-    opacity:1;
-    transition:opacity .35s ease;
+
+#buttonImage:hover {
+
+    filter:
+    drop-shadow(0 0 15px #ffd1ea);
+
 }
 
-@keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:scale(.95);
-    }
-    to{
-        opacity:1;
-        transform:scale(1);
-    }
+
+#buttonImage:active {
+
+    transform: scale(.95);
+
 }
 
-#buttonImage{
-    margin-top:25px;
-    width:220px;
-    cursor:pointer;
-    transition:.2s;
-}
 
-#buttonImage:hover{
-    transform:scale(1.05);
-}
+/* Sparkles */
 
-#buttonImage:active{
-    animation:bounce .35s;
-}
+.sparkle {
 
-@keyframes bounce{
-    0%{transform:scale(1);}
-    50%{transform:scale(.92);}
-    100%{transform:scale(1);}
-}
+    position: fixed;
 
-.sparkle{
-    position:fixed;
-    font-size:24px;
+    font-size: 25px;
+
     pointer-events:none;
-    animation:sparkle 900ms forwards;
+
+    animation: sparkle 900ms forwards;
+
 }
 
-@keyframes sparkle{
 
-    from{
+@keyframes sparkle {
+
+    from {
+
         opacity:1;
-        transform:translateY(0) scale(.6);
+
+        transform:
+        translateY(0)
+        scale(.5);
+
     }
 
-    to{
+    to {
+
         opacity:0;
-        transform:translateY(-70px) scale(1.5);
+
+        transform:
+        translateY(-80px)
+        scale(1.5);
+
     }
 
 }
+
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <h1>🌸 Random OC Picker 🌸</h1>
 
+
 <div id="card">
-    <img id="ocImage" src="" alt="Random OC">
+
+<img id="ocImage" alt="Random OC">
+
 </div>
 
+
 <br>
+
 
 <img
 id="buttonImage"
@@ -139,70 +166,149 @@ src="https://raw.githubusercontent.com/Peachiepeeps/oc-images/main/button.png"
 onclick="pickOC()"
 alt="Pick Another">
 
+
 <script>
+
 
 let images = [];
 
+
+// Get images from GitHub
+
 fetch("https://api.github.com/repos/Peachiepeeps/oc-images/contents?ref=main")
+
 .then(response => response.json())
+
 .then(files => {
 
+
     images = files
-        .filter(file => file.name.match(/\.(png|jpg|jpeg|webp)$/i))
-        .map(file => file.name);
+
+    .filter(file => 
+        file.name.match(/\.(png|jpg|jpeg|webp)$/i)
+    )
+
+    // Remove the button image
+    .filter(file =>
+        file.name !== "button.png"
+    )
+
+    .map(file => file.name);
+
+
 
     pickOC();
 
+
 });
+
+
+
+
 
 function createSparkles(){
 
-    for(let i=0;i<12;i++){
 
-        const sparkle=document.createElement("div");
+    for(let i = 0; i < 12; i++){
+
+
+        let sparkle =
+        document.createElement("div");
+
 
         sparkle.className="sparkle";
+
         sparkle.innerHTML="✨";
 
-        sparkle.style.left=(window.innerWidth/2-80+Math.random()*160)+"px";
-        sparkle.style.top=(window.innerHeight/2-120+Math.random()*180)+"px";
+
+        sparkle.style.left =
+        (window.innerWidth/2 + (Math.random()*200-100))
+        +"px";
+
+
+        sparkle.style.top =
+        (window.innerHeight/2 + (Math.random()*200-100))
+        +"px";
+
+
 
         document.body.appendChild(sparkle);
 
+
+
         setTimeout(()=>{
+
             sparkle.remove();
+
         },900);
+
 
     }
 
+
 }
+
+
+
+
 
 function pickOC(){
 
-    if(images.length===0) return;
 
-    const randomImage =
-        images[Math.floor(Math.random()*images.length)];
+    if(images.length === 0){
 
-    const img=document.getElementById("ocImage");
+        return;
 
-    img.style.opacity=0;
+    }
+
+
+
+    let randomImage =
+
+    images[Math.floor(Math.random()*images.length)];
+
+
+
+    let img =
+    document.getElementById("ocImage");
+
+
+
+    img.style.opacity = 0;
+
+
 
     setTimeout(()=>{
 
-        img.src="https://raw.githubusercontent.com/Peachiepeeps/oc-images/main/"+randomImage;
 
-        img.onload=()=>{
-            img.style.opacity=1;
+        img.src =
+
+        "https://raw.githubusercontent.com/Peachiepeeps/oc-images/main/"
+        + randomImage;
+
+
+
+        img.onload = ()=>{
+
+            img.style.opacity = 1;
+
         };
+
 
     },200);
 
+
+
     createSparkles();
+
 
 }
 
+
+
 </script>
 
+
 </body>
+
 </html>
