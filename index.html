@@ -51,11 +51,9 @@ h1{
 #ocImage{
     max-width:80vw;
     max-height:600px;
-
     border-radius:14px;
-
-    opacity:0;
-    animation:fadeIn .6s forwards;
+    opacity:1;
+    transition:opacity .35s ease;
 }
 
 @keyframes fadeIn{
@@ -185,10 +183,14 @@ function pickOC(){
         img.src="https://raw.githubusercontent.com/Peachiepeeps/oc-images/main/"+randomImage;
 
         img.onload=()=>{
-            img.style.animation="none";
-            img.offsetHeight;
-            img.style.animation="fadeIn .6s forwards";
+            img.style.opacity=1;
         };
+
+    },200);
+
+    createSparkles();
+
+}
 
     },100);
 
