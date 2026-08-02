@@ -1,0 +1,55 @@
+name: Update Image List
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  update-images:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate images.json
+        run: |
+          python3 << 'EOF'
+          import os, json
+
+          ignore = {
+              "button.png",
+              "background3.jpg",
+              "index.html",
+              "images.json",
+              ".gitignore"
+          }
+
+          exts = (".png",".jpg",".jpeg",".webp")
+
+          images = []
+
+          for f in os.listdir("."):
+              if f.lower().endswith(exts) and f not in ignore:
+                  images.append(f)
+
+          images.sort()
+
+          with open("images.json","w") as fp:
+              json.dump(images, fp)
+          EOF
+
+      - name: Commit images.json
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+          git add images.json
+
+          git diff --cached --quiet || (
+            git commit -m "Update images.json"
+            git push
+          )
